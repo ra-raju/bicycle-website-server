@@ -27,11 +27,19 @@ async function run() {
     console.log('Connected to MongoDB');
     const db = client.db('my_bicycle_website');
     const products_collection = db.collection('products');
+    const orders_collection = db.collection('orders');
 
     // post request for product
     app.post('/products', async (req, res) => {
       const products = req.body;
       const result = await products_collection.insertOne(products);
+      res.send(result);
+    });
+
+    // post order
+    app.post('/orders', async (req, res) => {
+      const orders = req.body;
+      const result = await orders_collection.insertOne(orders);
       res.send(result);
     });
 
