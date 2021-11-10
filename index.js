@@ -25,8 +25,21 @@ async function run() {
   try {
     await client.connect();
     console.log('Connected to MongoDB');
-    const db = client.db('myFirstDatabase');
-    const collection = db.collection('users');
+    const db = client.db('my_bicycle_website');
+    const products_collection = db.collection('products');
+
+    // post request for product
+    app.post('/products', async (req, res) => {
+      const products = req.body;
+      const result = await products_collection.insertOne(products);
+      res.send(result);
+    });
+
+    // get all products
+    app.get('/products', async (req, res) => {
+      const products = await products_collection.find().toArray();
+      res.send(products);
+    });
   } finally {
     //
   }
