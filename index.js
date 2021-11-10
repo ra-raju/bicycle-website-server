@@ -51,6 +51,22 @@ async function run() {
       res.send(result);
     });
 
+    // put request for users
+    app.put('/user', async (req, res) => {
+      const user = req.body;
+      const filter = { email: user.email };
+      const options = { upsert: true };
+      const updateDoc = {
+        $set: user,
+      };
+      const result = await users_collection.updateOne(
+        filter,
+        updateDoc,
+        options
+      );
+      res.send(result);
+    });
+
     // get all products
     app.get('/products', async (req, res) => {
       const products = await products_collection.find().toArray();
