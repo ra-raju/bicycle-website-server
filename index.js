@@ -28,6 +28,7 @@ async function run() {
     const db = client.db('my_bicycle_website');
     const products_collection = db.collection('products');
     const orders_collection = db.collection('orders');
+    const users_collection = db.collection('users');
 
     // post request for product
     app.post('/products', async (req, res) => {
@@ -40,6 +41,13 @@ async function run() {
     app.post('/orders', async (req, res) => {
       const orders = req.body;
       const result = await orders_collection.insertOne(orders);
+      res.send(result);
+    });
+
+    // post users
+    app.post('/user', async (req, res) => {
+      const users = req.body;
+      const result = await users_collection.insertOne(users);
       res.send(result);
     });
 
