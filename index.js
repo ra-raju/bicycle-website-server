@@ -1,10 +1,8 @@
-// user: assignment-12
-// pass: 3nXkWgiThKSmHOyE
-
 // setup express
 const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
+const { MongoClient, ObjectId } = require('mongodb');
 const app = express();
 const port = process.env.PORT || 8000;
 
@@ -12,7 +10,6 @@ const port = process.env.PORT || 8000;
 app.use(express.json());
 app.use(cors());
 
-const { MongoClient } = require('mongodb');
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.wn1l6.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
 console.log(uri);
 const client = new MongoClient(uri, {
@@ -98,6 +95,25 @@ async function run() {
       }
 
       res.send({ Admin: isAdmin });
+    });
+
+    // get user orders
+    app.get('/orders/:email', async (req, res) => {
+      const email = req.params.email;
+      const query = { email };
+      const cursor = orders_collection.find(query);
+      const orders = await cursor.toArray();
+      res.send(orders);
+    });
+
+    // delete orders by user
+    app.delete('/orders/:id', async (req, res) => {
+      const { id } = req.params;
+      console.log(id);
+      const query = { _id: ObjectId(id) };
+      console.log(query);
+      const result = await orders_collection.deleteOne(query);
+      res.send(result);
     });
   } finally {
     //
