@@ -129,6 +129,18 @@ async function run() {
       const result = await orders_collection.deleteOne(query);
       res.send(result);
     });
+
+    // update orders status
+    app.put('/order/update/:id', async (req, res) => {
+      const { id } = req.params;
+      const { status } = req.body;
+      const query = { _id: ObjectId(id) };
+      const updateDoc = {
+        $set: { status },
+      };
+      const result = await orders_collection.updateOne(query, updateDoc);
+      res.send(result);
+    });
   } finally {
     //
   }
