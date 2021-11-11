@@ -114,6 +114,12 @@ async function run() {
       res.send(orders);
     });
 
+    // get all orders
+    app.get('/allorders', async (req, res) => {
+      const orders = await orders_collection.find().toArray();
+      res.send(orders);
+    });
+
     // delete orders by user
     app.delete('/orders/:id', async (req, res) => {
       const { id } = req.params;
