@@ -86,6 +86,19 @@ async function run() {
       const products = await products_collection.find().toArray();
       res.send(products);
     });
+
+    // get the admin user
+    app.get('/user/:email', async (req, res) => {
+      const email = req.params.email;
+      const query = { email };
+      const user = await users_collection.findOne(query);
+      let isAdmin = false;
+      if (user?.role === 'Admin') {
+        isAdmin = true;
+      }
+
+      res.send({ Admin: isAdmin });
+    });
   } finally {
     //
   }
