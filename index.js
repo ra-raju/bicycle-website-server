@@ -67,6 +67,20 @@ async function run() {
       res.send(result);
     });
 
+    // make an admin
+    app.put('/user/admin', async (req, res) => {
+      const user = req.body;
+      const filter = { email: user.email };
+
+      const updateDoc = {
+        $set: {
+          role: 'Admin',
+        },
+      };
+      const result = await users_collection.updateOne(filter, updateDoc);
+      res.send(result);
+    });
+
     // get all products
     app.get('/products', async (req, res) => {
       const products = await products_collection.find().toArray();
