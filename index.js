@@ -120,6 +120,12 @@ async function run() {
       res.send(orders);
     });
 
+    // get all reviews
+    app.get('/reviews', async (req, res) => {
+      const reviews = await review_collection.find().toArray();
+      res.send(reviews);
+    });
+
     // delete orders by user
     app.delete('/orders/:id', async (req, res) => {
       const { id } = req.params;
