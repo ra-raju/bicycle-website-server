@@ -27,6 +27,7 @@ async function run() {
     const orders_collection = db.collection('orders');
     const users_collection = db.collection('users');
     const review_collection = db.collection('reviews');
+    const user_message_collection = db.collection('user_message');
 
     // post request for product
     app.post('/products', async (req, res) => {
@@ -53,6 +54,13 @@ async function run() {
     app.post('/review', async (req, res) => {
       const review = req.body;
       const result = await review_collection.insertOne(review);
+      res.send(result);
+    });
+
+    // post user message
+    app.post('/message', async (req, res) => {
+      const message = req.body;
+      const result = await user_message_collection.insertOne(message);
       res.send(result);
     });
 
